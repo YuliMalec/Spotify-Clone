@@ -18,22 +18,28 @@ export default function Home() {
         font-semibold">Welcome back!</h1>
         <div className="
         grid
-        grid-col-1
-        sm:grid-col-2
-        xl:grid-col-3
-        2xl:grid-col-4
+        grid-cols-1
+        sm:grid-cols-2
+        xl:grid-cols-3
+        2xl:grid-cols-4
         gap-3
         mt-4
 
         ">
             <ListItem
-            image=''
-            name=''
-            href=''
+            image='/image.jpg'
+            name='Liked Songs'
+            href='liked'
             />
         </div>
        </div>
       </Header>
+      <div className="mt-2 mb-7 px-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-white text-2xl font-semibold">Newest songs</h1>
+        </div>
+        <div>List of songs</div>
+      </div>
     </div>
   );
 }
