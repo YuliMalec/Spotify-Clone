@@ -3,6 +3,8 @@ import { Figtree } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "../../UI/Sidebar";
 import SupabaseProvider from "../../providers/SupabaseProvider";
+import UserProvider from "../../providers/UserProvider";
+import ModalProvider from "../../providers/ModalProvider";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -27,9 +29,12 @@ export default function RootLayout({
         className={`${figtree.variable}  antialiased`}
       >
         <SupabaseProvider>
-        <Sidebar>
-        {children}
-        </Sidebar>
+           <UserProvider>
+            <ModalProvider/>
+            <Sidebar>
+            {children}
+            </Sidebar>
+          </UserProvider>
         </SupabaseProvider>
       </body>
     </html>

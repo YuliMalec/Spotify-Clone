@@ -5,7 +5,11 @@ import {twMerge} from 'tailwind-merge'
 import { RxCaretLeft,RxCaretRight } from 'react-icons/rx'
 import { HiHome } from 'react-icons/hi2'
 import { IoSearch } from "react-icons/io5";
+import {FaUserAlt} from "react-icons/fa"
 import { Button } from './Button'
+import useAuthModal from '../hooks/useAuthModal'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useUser } from '../hooks/useUser'
 
 interface HeaderProp{
     children:React.ReactNode,
@@ -14,8 +18,18 @@ interface HeaderProp{
 
 export const Header:React.FC<HeaderProp> = ({children,className}) => {
     const router = useRouter()
-    const handleLogout = () =>{
+   
+    const supabaseClient = useSupabaseClient()
+    const {user} = useUser()
+    const {onOpen} = useAuthModal() 
+    const handleLogout = async() =>{
+      const {error} = await supabaseClient.auth.signOut()
+       ///TODO: reset any plaing songs
+      router.refresh()
 
+      if(error){
+        console.log(error)
+      }
     }
   return (
     <div className={twMerge(`
@@ -95,10 +109,20 @@ export const Header:React.FC<HeaderProp> = ({children,className}) => {
            justify-between
            items-center
            gap-x-4'>
+            {user ? <div 
+            className='flex gap-x-4 items-center'
+            ><Button
+            onClick={handleLogout}
+            className='bg-white px-6 py-2'
+            >Logout</Button>
+            <Button>
+              <FaUserAlt/>
+            </Button>
+            </div> :(
              <>
              <div>
                 <Button 
-                onClick={()=>{}}
+                onClick={onOpen}
                 className='bg-transparent
                 text-neutral-300
                 font-medium'>
@@ -107,14 +131,14 @@ export const Header:React.FC<HeaderProp> = ({children,className}) => {
              </div>
              <div>
                 <Button 
-                onClick={()=>{}}
+                onClick={onOpen}
                 className='bg-white
                 px-6
                 py-2'>
                    Log in
                     </Button>
              </div>
-             </>
+             </>)}
            </div>
         </div>
         {children}

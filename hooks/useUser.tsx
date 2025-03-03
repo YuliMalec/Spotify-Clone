@@ -19,7 +19,7 @@ export interface Prop{
     [propName:string]:any
 }
 
-export const MyUserSessionProvider = (prop:Prop) =>{
+export const MyUserContextProvider = (prop:Prop) =>{
     const {
         session,
         isLoading:isLoadingUser,
