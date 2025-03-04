@@ -5,6 +5,7 @@ import { Sidebar } from "../../UI/Sidebar";
 import SupabaseProvider from "../../providers/SupabaseProvider";
 import UserProvider from "../../providers/UserProvider";
 import ModalProvider from "../../providers/ModalProvider";
+import ToasterProvider from "../../providers/ToasterProvider";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -26,8 +27,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${figtree.variable}  antialiased`}
-      >
+        className={`${figtree.variable}  antialiased`}>
+        <ToasterProvider/>
         <SupabaseProvider>
            <UserProvider>
             <ModalProvider/>
