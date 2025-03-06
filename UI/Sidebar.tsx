@@ -6,10 +6,12 @@ import { IoSearch } from "react-icons/io5";
 import { Box } from './Box';
 import {SideBarItem} from './SideBarItem';
 import { Library } from './Library';
+import { Song } from '../types';
 interface SidebarProps {
-    children:React.ReactNode
+    children:React.ReactNode;
+    songs:Song[];
 }
-export const Sidebar:React.FC<SidebarProps> = ({children}) => {
+export const Sidebar:React.FC<SidebarProps> = ({children,songs}) => {
     const pathname = usePathname()
     const routes = React.useMemo(()=>[
         {    
@@ -49,7 +51,7 @@ export const Sidebar:React.FC<SidebarProps> = ({children}) => {
             </div>
         </Box>
         <Box className='overflow-y-auto h-full'> 
-        <Library/>
+        <Library songs={songs}/>
         </Box>
      </div>
      <main className='
