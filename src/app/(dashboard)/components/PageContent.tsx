@@ -1,4 +1,5 @@
 'use client'
+import useOnPlay from "../../../../hooks/useOnPlay"
 import { Song } from "../../../../types"
 import { SongItem } from "../../../../UI/SongItem"
 
@@ -12,6 +13,8 @@ export const  PageContent:React.FC<PageContentProps> = ({songs}) => {
           No songs available.
         </div>
     }
+
+    const onPlay  = useOnPlay(songs)
   return (
     <div className="
     grid
@@ -26,7 +29,7 @@ export const  PageContent:React.FC<PageContentProps> = ({songs}) => {
         {songs.map((item)=>(
             <SongItem 
             key={item.id}
-            onClick={()=>{}}
+            onClick={(id:string)=>onPlay(id)}
             data={item}/>
         ))}
     </div>
