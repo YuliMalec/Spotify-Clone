@@ -1,5 +1,5 @@
 'use client'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import { Song } from '../types'
 import { MediaItem } from './MediaItem'
 import { LikedButton } from './LikedButton'
@@ -8,6 +8,7 @@ import {AiFillStepBackward,AiFillStepForward} from 'react-icons/ai';
 import {HiSpeakerXMark,HiSpeakerWave} from 'react-icons/hi2'
 import { Slider } from './Slider'
 import usePlayer from '../hooks/usePlayer'
+import useSound from 'use-sound'
 interface PlayerContentProps{
     song:Song,
     songUrl:string
@@ -46,6 +47,44 @@ export const PlayerContent:React.FC<PlayerContentProps> = ({
         }
         player.setId(nextPrevious)
     }
+
+    const [play,{pause,sound}] = useSound(
+        songUrl,
+        {
+            volume:volume,
+            onplay:()=>setIsPlaying(true),
+            onend:()=>{
+                setIsPlaying(false)
+                onPlayNext()
+            },
+            onpause:()=>setIsPlaying(false),
+            format:['mp3']
+        }
+    )
+
+    useEffect(()=>{
+        sound?.play()
+
+        return ()=>{
+            sound?.unload()
+        }
+    },[sound])
+
+    const handlePlay = () =>{
+        if(!isPlaying){
+            play()
+        }else{
+            pause()
+        }
+    }
+
+    const toggleMute = () =>{
+        if(volume === 0){
+            setVolume(1)
+        } else {
+            setVolume(0)
+        }
+    }
   return (
     <div className='grid grid-cols-2 md:grid-cols-3 w-full'>
         <div className='flex w-full justify-start'>
@@ -62,7 +101,7 @@ export const PlayerContent:React.FC<PlayerContentProps> = ({
         justify-end
         items-center'>
             <div 
-            onClick={()=>{}}
+            onClick={handlePlay}
             className='
             h-10
             w-10
@@ -92,7 +131,7 @@ export const PlayerContent:React.FC<PlayerContentProps> = ({
             hover:text-white
             transition'/>
             <div 
-            onClick={()=>{}}
+            onClick={handlePlay}
             className='
             flex
             items-center
@@ -126,10 +165,11 @@ export const PlayerContent:React.FC<PlayerContentProps> = ({
             gap-x-2
             w-[120px]'>
                 <VolumeIcon
-                onClick={()=>{}}
+                onClick={toggleMute}
                 className='cursor-pointer'
                 size={34}/>
-                <Slider/>
+                <Slider value={volume}
+                onChange={(value)=>setVolume(value)}/>
             </div>
         </div>
     </div>

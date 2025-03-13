@@ -1,13 +1,17 @@
+'use client'
 import React from 'react'
 import { Song } from '../../../../types'
 import { MediaItem } from '../../../../UI/MediaItem'
 import { LikedButton } from '../../../../UI/LikedButton'
+import useOnPlay from '../../../../hooks/useOnPlay'
 
 interface SearchContentProps{
   songs:Song[]
 }
 
 export const SearchContent:React.FC<SearchContentProps> = ({songs}) =>{
+
+  const onPlay = useOnPlay(songs)
   if(songs.length === 0){
     return <div className='
     flex
@@ -34,7 +38,7 @@ export const SearchContent:React.FC<SearchContentProps> = ({songs}) =>{
           <div className='flex-1'>
             <MediaItem 
             item={song}
-            
+            onClick={(id:string)=>onPlay(id)}
             />
           </div>
          <LikedButton songId = {song.id}/>
