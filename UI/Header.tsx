@@ -11,6 +11,7 @@ import useAuthModal from '../hooks/useAuthModal'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useUser } from '../hooks/useUser'
 import {toast} from 'react-hot-toast'
+import usePlayer from '../hooks/usePlayer'
 
 interface HeaderProp{
     children:React.ReactNode,
@@ -22,10 +23,11 @@ export const Header:React.FC<HeaderProp> = ({children,className}) => {
    
     const supabaseClient = useSupabaseClient()
     const {user} = useUser()
+    const player = usePlayer()
     const {onOpen} = useAuthModal() 
     const handleLogout = async() =>{
       const {error} = await supabaseClient.auth.signOut()
-       ///TODO: reset any plaing songs
+      player.reset()
       router.refresh()
 
       if(error){

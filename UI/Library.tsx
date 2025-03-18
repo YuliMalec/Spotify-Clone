@@ -8,25 +8,25 @@ import useUplpadModal from '../hooks/useUploadModal'
 import { Song } from '../types'
 import {MediaItem} from './MediaItem'
 import useOnPlay from '../hooks/useOnPlay'
+import useSubscriptionModal from '../hooks/useSubscribeModal'
+import toast from 'react-hot-toast'
 
 interface LibrabraryProps{
   songs:Song[]
 }
 
 export const Library:React.FC<LibrabraryProps> = ({songs}) => {
-  const authModal = useAuthModal()
-  const uploadModal = useUplpadModal()
-  const {user} = useUser()
-
+  
+ const uploadModal = useUplpadModal()
+ const {user} = useUser()
   const onPlay = useOnPlay(songs)
-
-  const onClick =()=>{
-    if(!user) {
-      return authModal.onOpen()
+  const onClick = ()=>{
+    if(!user){
+      return toast.error('Sign in at first!')
     }
-    //TODO: check fot subscription
-    return uploadModal.onOpen()
+    uploadModal.onOpen()
   }
+  
   return (
     <div className='flex flex-col'>
         <div className='

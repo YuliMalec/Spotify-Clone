@@ -12,16 +12,16 @@ interface LikedContentProps{
 }
 
 export const LikedContent:React.FC<LikedContentProps> = ({songs}) =>{
-    const router = useRouter()
+   /* const router = useRouter()
     const {isLoading,user} = useUser()
-    const onPlay = useOnPlay(songs)
+    
     useEffect(() => {
         if(!isLoading && !user){
             router.replace('/')
         }
     
-    }, [isLoading,user,router])
-
+    }, [isLoading,user,router])*/
+const onPlay = useOnPlay(songs)
     if(songs.length === 0){
         return <div className='
         flex

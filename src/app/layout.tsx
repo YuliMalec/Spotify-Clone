@@ -4,10 +4,12 @@ import "./globals.css";
 import { Sidebar } from "../../UI/Sidebar";
 import SupabaseProvider from "../../providers/SupabaseProvider";
 import UserProvider from "../../providers/UserProvider";
-import ModalProvider from "../../providers/ModalProvider";
+import {ModalProvider} from "../../providers/ModalProvider";
 import ToasterProvider from "../../providers/ToasterProvider";
 import getSongsByUserId from "../../actoins/getSongsByUserId";
 import Player from "../../UI/Player";
+import {getActiveProductWithPrices} from "../../actoins/getActiveProductWithPrices";
+
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -27,6 +29,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const userSongs = await getSongsByUserId()
+  const products = await getActiveProductWithPrices()
+
+   
+console.log(userSongs)
   return (
     <html lang="en">
       <body
@@ -34,7 +40,7 @@ export default async function RootLayout({
         <ToasterProvider/>
         <SupabaseProvider>
            <UserProvider>
-            <ModalProvider/>
+            <ModalProvider products={products}/>
             <Sidebar songs={userSongs}>
             {children}
             </Sidebar>

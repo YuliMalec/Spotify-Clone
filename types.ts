@@ -8,6 +8,8 @@ export interface Song{
     song_path:string;
     image_path:string;
 }
+
+
 export interface userDetails{
     id:string;
     first_name:string;
@@ -39,6 +41,8 @@ export interface Price{
     metadata?:Stripe.Metadata;
     products?:Product;
 
+}export interface ProductWithPrice extends Product{
+    prices?:Price[]
 }
 export interface Subscription {
     id:string;
@@ -57,4 +61,5 @@ export interface Subscription {
     trial_start?:string;
     trial_end?:string;
     prices?:Price;
+    
 }

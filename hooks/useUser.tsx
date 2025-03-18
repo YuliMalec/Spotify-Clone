@@ -1,7 +1,7 @@
 'use client'
 import { User } from "@supabase/auth-helpers-nextjs";
 import { userDetails } from "../types";
-import { Subscription } from "@supabase/auth-js";
+import { Subscription } from "../types";
 import { createContext, useEffect, useState,useContext } from "react";
 import { useSessionContext ,useUser as useSupaUser} from "@supabase/auth-helpers-react";
 
@@ -34,14 +34,15 @@ export const MyUserContextProvider = (prop:Prop) =>{
     const [subscribtion,setSubscription] = useState<Subscription | null>(null)
 
     const getUserDatails = () => supabase.from('users').select('*').single()
-    const getSubscriptions = () =>supabase
+    const getSubscriptions = () =>
+    supabase
     .from('subscriptions')
     .select('*,prices(*,products(*))')
     .in('status',['trialing','active'])
     .single()
 
     useEffect(()=>{
-       if(user && !isLoadingData &&!userDetails && !subscribtion) {
+       if(user && !isLoadingData && !userDetails && !subscribtion) {
            setIsLoadingData(true)
            Promise.allSettled([getUserDatails(),getSubscriptions()]).then(
             (results)=>{
@@ -53,6 +54,7 @@ export const MyUserContextProvider = (prop:Prop) =>{
                 }
                 if(subscriptionPromise.status === 'fulfilled'){
                     setSubscription(subscriptionPromise.value.data as Subscription)
+                    console.log('This part works')
                 }
                 setIsLoadingData(false)
             }

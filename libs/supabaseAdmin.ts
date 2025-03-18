@@ -1,4 +1,4 @@
-import { metadata } from './../src/app/layout';
+
 import { Price } from './../types';
 import Stripe from 'stripe';
 import { createClient } from "@supabase/supabase-js";
@@ -6,11 +6,11 @@ import { Database } from "../types_db";
 import { stripe } from "./stripe";
 import { toDateTime } from "./helpers";
 import { Product } from "../types";
-import { subscribe } from 'diagnostics_channel';
+
 
 export const supabaseAdmin = createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.SUPABASE_SERVICE_ROLL_KEY || ''
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 )
 
 const upsertProductRecord = async (product:Stripe.Product)=>{
